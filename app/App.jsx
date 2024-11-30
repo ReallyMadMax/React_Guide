@@ -1,10 +1,12 @@
 "use client"
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
-import ToDoForm from './ToDoForm';
-import ToDoList from './ToDoList';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './screens/HomeScreen';
+import AboutScreen from './screens/AboutScreen';
 
 export default function App() {
+  const Stack = createStackNavigator();
   const [tasks, setTasks] = useState([
     'Do laundry',
     'Go to gym',
@@ -16,9 +18,13 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView>
-      <ToDoList tasks={tasks}/>
-      <ToDoForm addTask={addTask}/>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home">
+          {(props) => <HomeScreen {...props} tasks={tasks} addTask={addTask} />}
+        </Stack.Screen>
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
